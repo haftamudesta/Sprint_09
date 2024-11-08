@@ -6,7 +6,7 @@ const route=express.Router();
 
 
 
-route.post('/',createtUser);
+route.post('/createUser',createtUser);
 route.post('/sign_in',signIn);
 route.post('/sign_out',signOut);
 route.get('/getAllUsers',authenticate,authorizeAsAdmin,getAllUsers)
