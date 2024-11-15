@@ -5,9 +5,9 @@ const generateToken=require('../utilities/createToken')
 
 
 const createtUser= asyncHandler(async(req,res)=>{
-        const {username,email,password}=req.body
+        const {name,email,password}=req.body
         switch(true){
-                case !username:
+                case !name:
                         return res.json({message:" User Name is required"});
                 case !email:
                         return res.json({message:" Email is required"});
@@ -20,7 +20,7 @@ const createtUser= asyncHandler(async(req,res)=>{
         }
         const hashedPassword=bcryptjs.hashSync(password,10);
         const newUser=new ChatAppUsers({
-                username,
+                name,
                 email,
                 password:hashedPassword,
         })
@@ -30,7 +30,7 @@ const createtUser= asyncHandler(async(req,res)=>{
                 generateToken(res,newUser._id)
                 res.status(201).json({
                     _id:newUser._id,
-                    username:newUser.username,
+                    name:newUser.name,
                     email:newUser.email,
                     password:newUser.password,
                     isAdmin:newUser.isAdmin   

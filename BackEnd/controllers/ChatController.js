@@ -19,13 +19,13 @@ const createChat=asyncHandler(async(req,res)=>{
 })
 const getAllUserChats=asyncHandler(async(req,res)=>{
         try{
-                const {id}=req.params
+                
                  const allChat= await Chat.find({members:{$in:req.body.userId}});
                 //const allChat= await Chat.findOne({id});
                 res.status(200).json({
                  message:"Chat fetched successfully",
                  success:true,
-                 allChat
+                 data:allChat
                 })
          }catch(error){
                  res.status(400).json({

@@ -1,17 +1,24 @@
-import { AllRoutes } from "./pages/AllRoutes"
-//import {Toaster} from "react-hot-toast"
+//import { AllRoutes } from "./pages/AllRoutes";
+import { BrowserRouter,Routes,Route } from 'react-router-dom';
+import Home from "./pages/Home";
+import SignUp from "./pages/SignUp";
+import { SignIn } from "./pages/SignIn";
+import ProtectedRoutes from './components/ProtectedRoutes';
+
 import { ToastContainer,} from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
   return (
-    <main className="h-screen mt-[-20px] bg-gradient-to-b from-teal-700  to-sky-600 ">
+    <main className="h-screen mt-[-20px] bg-gradient-to-b from-teal-700  to-purple-700 text-black ">
      <ToastContainer />
-      <AllRoutes />
-      App
-      <h1 className="text-3xl font-bold underline">
-      Hello world!
-    </h1>
+     <BrowserRouter>
+        <Routes>
+        <Route path='/' element={<ProtectedRoutes><Home/></ProtectedRoutes>} />
+        <Route path='/sign_in' element={<SignIn/>} />
+        <Route path='/sign_up' element={<SignUp />} />
+        </Routes>
+        </BrowserRouter>
     </main>
   )
 }

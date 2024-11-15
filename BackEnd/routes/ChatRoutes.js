@@ -7,5 +7,5 @@ const route=express.Router();
 
 
 route.post('/create_chat',createChat);
-route.post('/:userId',getAllUserChats);
+route.get('/getAllChats',authenticate,getAllUserChats);
 module.exports=route;

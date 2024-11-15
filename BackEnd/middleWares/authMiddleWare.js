@@ -8,7 +8,7 @@ const authenticate=asyncHandler(async(req,res,next)=>{
         if(token){
                 try{
                         const decodedToken=jwt.verify(token,process.env.JWT_SECRET);
-                        req.user=await ChatAppUsers.findById(userId).select("-password");
+                        req.body.userId=decodedToken.userId;
                         next()
                 }catch(error){
                         res.status(401);
