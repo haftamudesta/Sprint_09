@@ -17,7 +17,6 @@ const ProtectedRoutes = ({children}) => {
                 dispatch(signInStart())
                 const response=await fetchAllUsers();
                 if(response.length>0){
-                  console.log("users",response);
                   const usersExceptCurrentUser=response.filter(user=>user._id!==currentUser._id);
                   dispatch(hideLoading())
                   dispatch(setAllUsers(usersExceptCurrentUser))
@@ -38,7 +37,6 @@ const ProtectedRoutes = ({children}) => {
                 console.log(error)
               }
             }
-    
             getAllUsers();
             getUserChats();
           }else{

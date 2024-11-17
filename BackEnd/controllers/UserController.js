@@ -48,13 +48,12 @@ const signIn= asyncHandler(async(req,res)=>{
         }
         const existingUser=await ChatAppUsers.findOne({email})
         if(existingUser){
-                console.log(existingUser)
                 const validPassword=bcryptjs.compareSync(password,existingUser.password);
                 if(validPassword){
                         generateToken(res,existingUser._id)
                         res.status(201).json({
                                 _id:existingUser._id,
-                                username:existingUser.username,
+                                name:existingUser.name,
                                 email:existingUser.email,
                                 password:existingUser.password,
                                 isAdmin:existingUser.isAdmin   

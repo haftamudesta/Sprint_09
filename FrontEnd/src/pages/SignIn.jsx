@@ -31,13 +31,12 @@ export const SignIn = () => {
           });
           console.log(res)
           const data=await res.json();
-          console.log("data",data)
          if(data.success=== false){
          return dispatch(signInFailure(data.message));
          }
          
          if(res.ok){
-          signInSuccess(data)
+          dispatch(signInSuccess(data))
           navigate('/');
          }
     }catch(error){

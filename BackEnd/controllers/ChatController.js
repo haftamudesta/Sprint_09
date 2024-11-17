@@ -20,7 +20,7 @@ const createChat=asyncHandler(async(req,res)=>{
 const getAllUserChats=asyncHandler(async(req,res)=>{
         try{
                 
-                 const allChat= await Chat.find({members:{$in:req.body.userId}});
+                 const allChat= await Chat.find({members:{$in:req.body.userId}}).populate("members");
                 //const allChat= await Chat.findOne({id});
                 res.status(200).json({
                  message:"Chat fetched successfully",
