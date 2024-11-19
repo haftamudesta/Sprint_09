@@ -4,12 +4,18 @@ const Chat =require('../models/ChatModel')
 
 const createMessage=asyncHandler(async(req,res)=>{
         try{
+                
                 const newMessage=new Message(req.body);
                 const savedMessage=await newMessage.save();
                 const currentChat=await Chat.findById(req.body.chatId);
                 currentChat.lastMessage=savedMessage._id;
                 currentChat.unReadMessagesCounter+=1;
-                await currentChat.save();
+                const currentMessage=await currentChat.save();
+                res.json({
+                        message:"Message created successfully",
+                        status:true,
+                        data:currentMessage
+                })
         }catch(error){
                 res.status(404).json({
                         message:error.message,
@@ -23,7 +29,7 @@ const getUserMessages=asyncHandler(async(req,res)=>{
                 res.status(200).json({
                         message:'message fetched successfully',
                         status:true,
-                        allMessages,
+                        data:allMessages,
                 })
         }catch(error){
                 res.status(404).json({

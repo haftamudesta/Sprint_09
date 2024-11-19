@@ -73,7 +73,7 @@ const signOut=asyncHandler(async(req,res)=>{
 })
 
 const getAllUsers=asyncHandler(async(req,res)=>{
-        const chatappusers=await ChatAppUsers.find({}) 
+        const chatappusers=await ChatAppUsers.find({})
         res.status(201).json(chatappusers)    
 })
 

@@ -10,7 +10,7 @@ const Home = () => {
       <div>
       <NavBar />
     </div>
-    <div className="flex gap-4 items-center">
+    <div className="flex gap-4">
       <SideBar />
       {selectedChat&&<ChatRoom />}
     </div>

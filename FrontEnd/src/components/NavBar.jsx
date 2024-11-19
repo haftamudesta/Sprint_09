@@ -11,6 +11,7 @@ const NavBar = () => {
                 </div>
                 <div className="flex gap-8">
                         <p>{currentUser?.name}</p>
+                        <p>{currentUser?.email}</p>
                 </div>
         </div>
         </div>
