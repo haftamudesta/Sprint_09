@@ -14,16 +14,10 @@ function filterUserChat(){
         if(searchKey===''){
                 return allChats;
         }else{
-        const allFilteredUsers=allUsers?.filter(user=>{
-         user.name.toLowerCase().includes(searchKey.toLowerCase()) 
-                })
-        console.log(allFilteredUsers)
-        return allFilteredUsers;
+               return allUsers.filter(user=>user.name.toLowerCase().includes(searchKey.toLowerCase()))
         }
 
 }
-
-
         const dispatch=useDispatch()
         const chatSelected=(user)=>{
                 if(selectedChat){
@@ -79,7 +73,7 @@ function filterUserChat(){
         }
 
   return (
-    <main className="md:ml-20 mt-4">
+    <main className="w-[100%] mt-4">
         {
                 filterUserChat()
                 .map((object,index)=>{
@@ -93,7 +87,7 @@ function filterUserChat(){
                         >
                                 <div className={`${chatSelected(user)?'bg-red-300':''}  flex justify-between`}>
                                         <div className="flex gap-4">
-                                                <div className="text-lg font-bold bg-red-400 rounded-full px-2 border border-1 border-g">
+                                                <div className="text-lg font-bold bg-red-400 rounded-full px-2 border border-1 ">
                                                 {user.name.charAt(0).toUpperCase()}
                                                 </div>
                                                 <div>

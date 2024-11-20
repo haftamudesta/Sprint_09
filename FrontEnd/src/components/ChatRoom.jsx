@@ -2,7 +2,8 @@ import { useSelector } from "react-redux"
 import { createNewMessage,fetchAllMessages,clearUnreadMessageCount } from "../customHooks/FetchApi";
 import { toast } from 'react-toastify';
 import { useEffect, useState } from "react";
-import { BiRightArrow } from "react-icons/bi";
+//import { BiRightArrow } from "react-icons/bi";
+import { FaArrowAltCircleUp } from "react-icons/fa";
 import moment from "moment"
 
 
@@ -76,7 +77,7 @@ const setTimeFormat=(createdAt)=>{
 
         
   return (
-    <div className=" w-full pr-2  mb-8">{selectedChat&&(
+    <div className=" w-[85%] pr-2  mb-8">{selectedChat&&(
       <div className="bg-white text-black">
         <div className="flex">
           <p>{userToChat?.name}</p>
@@ -98,19 +99,21 @@ const setTimeFormat=(createdAt)=>{
             })}
           </div>
         </div>
-        <div className="flex relative py-1 px-2 ">
+        <div className="flex flex-row py-1 px-2 gap-2">
           <input type="text" 
-          placeholder="enter message" 
+          placeholder="Write Message Here" 
           value={message}
           onChange={(e)=>setMessage(e.target.value)}
-          className="border-2 border-gray-300 min-w-[75%] placeholder:text-center"
+          className="border-2 border-gray-300 min-w-[90%] rounded-full placeholder:pl-4"
           
           />
-          <button 
-          className="text-3xl font-bold text-teal-500 ml- py-1 absolute bottom-2 top-1"
-          onClick={sendMessage
+          {
+            message&&<button 
+            className="text-3xl font-bold text-teal-500  py-1 bottom-2 top-1"
+            onClick={sendMessage
+            }
+            ><FaArrowAltCircleUp /></button>
           }
-          ><BiRightArrow /></button>
         </div>
       </div>
       
