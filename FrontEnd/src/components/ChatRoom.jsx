@@ -43,7 +43,6 @@ const ChatRoom = () => {
           try{
             
             const response=await clearUnreadMessageCount(selectedChat._id);
-            console.log(response);
             if(response.success){
               allChats.map(chat=>{
                 if(chat._id===selectedChat._id){

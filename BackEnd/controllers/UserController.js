@@ -69,7 +69,10 @@ const signOut=asyncHandler(async(req,res)=>{
                 httpOnly:true,
                 expires:new Date(0)
         });
-        res.status(200).json({message:"Signed Out Successfully"})
+        res.status(200).json({
+                message:"Signed Out Successfully",
+                success:true,
+        })
 })
 
 const getAllUsers=asyncHandler(async(req,res)=>{

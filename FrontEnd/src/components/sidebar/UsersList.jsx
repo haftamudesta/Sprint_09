@@ -75,8 +75,7 @@ function filterUserChat(){
   return (
     <main className="w-[100%] mt-4">
         {
-                filterUserChat()
-                .map((object,index)=>{
+                filterUserChat()?.map((object,index)=>{
                         let user=object;
                         if(object.members){
                                 user=object.members.find(user=>user._id!==currentUser._id);
@@ -88,7 +87,7 @@ function filterUserChat(){
                                 <div className={`${chatSelected(user)?'bg-red-300':''}  flex justify-between`}>
                                         <div className="flex gap-4">
                                                 <div className="text-lg font-bold bg-red-400 rounded-full px-2 border border-1 ">
-                                                {user.name.charAt(0).toUpperCase()}
+                                                {user.name}
                                                 </div>
                                                 <div>
                                                  <div className="flex flex-row gap-6">
