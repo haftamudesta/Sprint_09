@@ -6,19 +6,10 @@ import { SignIn } from "./pages/SignIn";
 import ProtectedRoutes from './components/ProtectedRoutes';
 import { ToastContainer,} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import io from "socket.io-client"
 
-const socket=io.connect(`http://localhost:3001`, {
-  reconnection:true,
-  path: "/socket.io",
-  transports: ['websocket','polling'],
-  withCredentials: true,
-  reconnectionAttempts: 5,
-  wssEngine:['ws','wsss'],
-  allowEIO3:true,
-})
 
 const App = () => {
+  
   return (
     <main className="h-screen mt-[-20px] bg-gradient-to-b from-teal-700  to-purple-700 text-black ">
      <ToastContainer />

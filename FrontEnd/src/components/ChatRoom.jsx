@@ -2,14 +2,18 @@ import { useSelector } from "react-redux"
 import { createNewMessage,fetchAllMessages,clearUnreadMessageCount } from "../customHooks/FetchApi";
 import { toast } from 'react-toastify';
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 //import { BiRightArrow } from "react-icons/bi";
 import { FaArrowAltCircleUp } from "react-icons/fa";
 import moment from "moment"
+import { store } from "../redux/Store";
+import { setAllChats } from "../redux/user/userSlice";
 
 
-const ChatRoom = () => {
+const ChatRoom = ({socket}) => {
         const {selectedChat,currentUser,allChats}=useSelector(state=>state.user);
         const userToChat=selectedChat.members?.find(user=>user._id!==currentUser._id)
+        const dispatch=useDispatch();
         const [message,setMessage]=useState("");
         const [allMessages,setAllMessages]=useState([]);
         const sendMessage=async ()=>{
@@ -19,6 +23,12 @@ const ChatRoom = () => {
               sender:currentUser._id,
               text:message,
             }
+            socket.emit('sendMessage',{
+              ...messageToSend,
+              members:selectedChat.members.map(member=>member._id),
+              read:false,
+              createdAt:moment().format('YYY-MM-DD hh:mm:ss')
+            })
             const response=await createNewMessage(messageToSend);
             if(response.status){
               setMessage('')
@@ -38,10 +48,12 @@ const ChatRoom = () => {
             toast.error(error.message);
           }
         }
-
         const clearUnreadMessages=async ()=>{
           try{
-            
+            socket.emit('clearUnreadMessage',{
+              chatId:selectedChat._id,
+              members:selectedChat.members.map(member=>member._id)
+            })
             const response=await clearUnreadMessageCount(selectedChat._id);
             if(response.success){
               allChats.map(chat=>{
@@ -56,12 +68,6 @@ const ChatRoom = () => {
             toast.error(error.message);
           }
         }
-        useEffect(()=>{
-          getAllMessages();
-          if(selectedChat?.lastMessage?.sender!==currentUser._id){
-            clearUnreadMessages();
-          }
-        },[selectedChat])
 const setTimeFormat=(createdAt)=>{
   const now=moment();
   const diff=now.diff(moment(createdAt,'days'))
@@ -74,6 +80,54 @@ const setTimeFormat=(createdAt)=>{
   }
 }
 
+useEffect(()=>{
+  getAllMessages();
+  if(selectedChat?.lastMessage?.sender!==currentUser._id){
+    clearUnreadMessages();
+  }
+  //.off('receiveMessage')
+  socket.on('receiveMessage',receivedMessage=>{
+    const selectedChat=store.getState().user.selectedChat;
+    if(selectedChat._id===receivedMessage.chatId){
+      setAllMessages((prev)=>[...prev,receivedMessage])
+    }
+    if(selectedChat._id===receivedMessage.chatId&&receivedMessage.sender!==currentUser._id){
+      clearUnreadMessages();
+    }
+  })
+  socket.on('messageCountCleared',(data)=>{
+    const selectedChat=store.getState().user.selectedChat;
+    const allChats=store.getState().user.allChats;
+    if(selectedChat._id===data.chatId){
+      const updatedChat=allChats.map((chat)=>{
+        if(chat._id===data.chatId){
+          return {
+            ...chat,
+            unReadMessagesCounter:0,
+          }
+        }
+        return chat;
+      })
+      dispatch(setAllChats(updatedChat));
+      setAllMessages(prevMessage=>{
+        return prevMessage.map((message)=>{
+          return {
+            ...message,
+            read:true,
+          }
+        })
+      })
+    }
+  })
+
+  
+},[selectedChat,currentUser._id,getAllMessages,socket,clearUnreadMessages])
+
+useEffect(()=>{
+  const messageContainer=document.getElementById('main_chat_area');
+  messageContainer.scrollTop=messageContainer.scrollHeight;
+},[allMessages])
+
         
   return (
     <div className=" w-[85%] pr-2  mb-8">{selectedChat&&(
@@ -82,17 +136,18 @@ const setTimeFormat=(createdAt)=>{
           <p>{userToChat?.name}</p>
           <p>{userToChat?.email}</p>
         </div>
-        <div className="make_scroll h-[70vh]">
+        <div className="make_scroll h-[70vh]" id="main_chat_area">
           <div >
             {allMessages.map((message,index)=>{
               const isCurrentUserSender=message.sender===currentUser._id
               return <div key={index}
               className={isCurrentUserSender?'justify-items-end':'justify-items-start'}
+              
               >
                 <p className={isCurrentUserSender?'bg-teal-400 border-2 rounded-3xl px-6 rounded-tr-none  py-2 mb-2':'bg-gray-300 border-2 w-60 rounded-3xl px-2 rounded-bl-none  py-2 mb-2'}>
                 {message.text}
                 </p>
-                <p>{setTimeFormat(message.createdAt)}{isCurrentUserSender&&message.read&&
+                <p className="mb-6">{setTimeFormat(message.createdAt)}{isCurrentUserSender&&message.read&&
                   <span className="text-red-400 ml-4">message sent</span>}</p>
               </div>
             })}

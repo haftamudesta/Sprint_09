@@ -21,9 +21,9 @@ const {server,serverSocket,io}=require('./utilities/SocketIo')
  server.use('/api/chats',chatRoutes)
  server.use('/api/messages',messageRoutes)
 
- io.on('connection',socket=>{
-    console.log("connected to socket id:",socket.id)
- })
+//  io.on('connection',socket=>{
+//     console.log("connected to socket id:",socket.id)
+//  })
 
  DBConnection().then(()=>{
         try{
