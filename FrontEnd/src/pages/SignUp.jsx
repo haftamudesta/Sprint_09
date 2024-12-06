@@ -48,10 +48,10 @@ const SignUp = () => {
     }
   }
   return (
-    <div className='flex justify-center ml-8 mr-8 w-full mx-auto md:ml-40 bg-sky-300 md:w-2/4'>
+    <div className='flex justify-center ml-8 mr-8 w-full mx-auto md:ml-40  '>
       <div className='flex  p-3 max-w-3xl  flex-col md:flex-row md:items-center gap-10'>
-        <div className="flex-1">
-          <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
+        <div className="flex-1 mt-20 bg-sky-300 md:w-3/4 p-4">
+          <form className="flex flex-col " onSubmit={handleSubmit}>
             <div className="flex gap-2 flex-col">
               <Label value="Your Name:" className="flex text-start"/>
               <TextInput 

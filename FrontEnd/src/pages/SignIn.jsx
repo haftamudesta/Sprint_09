@@ -45,10 +45,10 @@ export const SignIn = () => {
   }
   
   return (
-    <div className=' ml-8 mr-8 w-full mx-auto md:ml-40 md:w-2/4'>
-        <div className='flex justify-center items-center ml-8 mr-8 w-full mx-auto md:ml-40  bg-sky-300 md:w-2/4'>
+    <div className=' ml-8 mr-8 w-full mx-auto md:ml-40 md:w-2/4 mt-4'>
+        <div className='flex justify-center items-center ml-8 mr-8 w-full mx-auto md:ml-40  '>
         <div className='flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-10'>
-          <div className="flex-1">
+          <div className="flex-1 bg-sky-300 md:w-3/4 mt-12 p-8">
             <form className="flex flex-col gap-6 justify-center items-center" onSubmit={handleSubmit}>
               <div className="flex flex-col gap-2">
                 <Label value="Your Email:" className="flex text-start"/>
